@@ -2,14 +2,17 @@
 #include "menu.h"
 #include "tools.h"
 #include "custom_knapsack_problem_mode.h"
+#include "test_knapsack_problem_openmp.h"
 #include "stdio.h"
 #include "stdlib.h"
+
 
 /*main function contains basic steps of program*/
 int main() {
 	int mode = 0;
 	char again[8];
 	int main_loop = 1;
+
 
 	while (main_loop) 
 	{
@@ -23,7 +26,7 @@ int main() {
 		}
 		case 2:
 		{
-			//test_knapsack_problem_open_mp_mode();
+			test_knapsack_problem_open_mp_mode();
 			break;
 		}
 		case 3:

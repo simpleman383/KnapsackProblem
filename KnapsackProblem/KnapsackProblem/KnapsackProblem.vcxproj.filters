@@ -29,5 +29,8 @@
     <ClInclude Include="custom_knapsack_problem_mode.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="test_knapsack_problem_openmp.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
