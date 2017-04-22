@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "tools.h"
+#define MAX_STACK_DEPTH 4000
 
 int err;
 
@@ -10,6 +11,12 @@ int N, WeightLimit;
 int * value;
 int * weight;
 int ** A;
+
+// to avoid stack overflow
+int depth = 0;
+int k_mem, s_mem;
+int interrupt_flag = 0;
+
 
 int enter_N()
 {
@@ -161,8 +168,20 @@ int calculateMatrix() {
 }
 
 void solve(int k, int s) {
-	if (A[k][s] == 0)
+	depth++;
+	if (depth > MAX_STACK_DEPTH) {
+		k_mem = k;
+		s_mem = s;
+		interrupt_flag = 1;
+		depth = 0;
 		return;
+	}
+
+	if (A[k][s] == 0)
+	{
+		interrupt_flag = 0;
+		return;
+	}
 	if (A[k - 1][s] == A[k][s])
 		solve(k - 1, s);
 	else
@@ -206,6 +225,7 @@ void custom_knapsack_problem_mode()
 	calculateMatrix();
 	printf("\nRESULT:\n");
 	solve(N, WeightLimit);
+	while (interrupt_flag) solve(k_mem, s_mem);
 	printf("\n");
 
 	clean_up();

@@ -4,16 +4,18 @@
 #include "tools.h"
 #include "time.h"
 #include "omp.h"
+#define MAX_STACK_DEPTH 4000
+
 #define MAX_WEIGHT 10
 #define MAX_VALUE 10
 #define ATTEMPTS 10
 
 #define MIN_N 1000
-#define MAX_N 4000
-#define STEP_N 200
+#define MAX_N 10000
+#define STEP_N 1000
 
-#define MIN_W 1000
-#define MAX_W 20000
+#define MIN_W 5000
+#define MAX_W 40000
 #define STEP_W 1000
 
 char threads_count_input[16];
@@ -25,7 +27,10 @@ int threads_numb;
 clock_t start, stop;
 FILE * report_openmp;
 
-
+// to avoid stack overflow
+int depth_test_omp = 0;
+int k_mem_test_omp, s_mem_test_omp;
+int interrupt_flag_test_omp = 0;
 
 int generate_weights(int amount)
 {
@@ -100,8 +105,20 @@ int calculateMatrix_openmp() {
 }
 
 void solve_openmp(int k, int s) {
-	if (A[k][s] == 0)
+	depth_test_omp++;
+	if (depth_test_omp > MAX_STACK_DEPTH) {
+		k_mem_test_omp = k;
+		s_mem_test_omp = s;
+		interrupt_flag_test_omp = 1;
+		depth_test_omp = 0;
 		return;
+	}
+
+	if (A[k][s] == 0)
+	{
+		interrupt_flag_test_omp = 0;
+		return;
+	}
 	if (A[k - 1][s] == A[k][s])
 		solve_openmp(k - 1, s);
 	else
@@ -191,6 +208,7 @@ void test_knapsack_problem_open_mp_mode()
 
 				calculateMatrix_openmp();
 				solve_openmp(N, WeightLimit);
+				while (interrupt_flag_test_omp) solve_openmp(k_mem_test_omp, s_mem_test_omp);
 
 				stop = clock();
 				double time_elapsed = ((double)stop - (double)start) / CLOCKS_PER_SEC;
