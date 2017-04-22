@@ -76,6 +76,7 @@ void start_help_mode() {
 	char cmd[2];
 	while (1) 
 	{
+		fflush(stdout);
 		scanf("%s", cmd);
 		if (!validate_help_mode_input(cmd, strlen(cmd)))
 			printf("Error: incorrect input\n");
@@ -101,6 +102,7 @@ int start_menu_mode()
 
 		while (1)
 		{
+			fflush(stdout);
 			scanf("%s", select_input);
 			if (!validate_menu_mode_input(select_input, strlen(select_input)))
 				printf("Error: incorrect input\n");
@@ -147,6 +149,7 @@ int start_menu_mode()
 			print_menu_level_1(level_0_input);
 			while (1)
 			{
+				fflush(stdout);
 				scanf("%s", select_input);
 				if (!validate_menu_1_mode_input(select_input, strlen(select_input)))
 					printf("Error: incorrect input\n");

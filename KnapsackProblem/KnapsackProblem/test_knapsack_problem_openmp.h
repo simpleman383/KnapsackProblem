@@ -8,7 +8,7 @@
 
 #define MAX_WEIGHT 10
 #define MAX_VALUE 10
-#define ATTEMPTS 10
+#define ATTEMPTS 5
 
 #define MIN_N 1000
 #define MAX_N 10000
@@ -20,6 +20,7 @@
 
 char threads_count_input[16];
 int N, WeightLimit, errcode;
+int ** A;
 int * weight;
 int * value;
 int x, j;
@@ -144,6 +145,7 @@ int enter_threads_numb_openmp()
 	while (1)
 	{
 		printf("Threads Numb = ");
+		fflush(stdout);
 		scanf("%s", threads_count_input);
 
 		if (!validate_amount(threads_count_input, strlen(threads_count_input)))
@@ -167,9 +169,9 @@ void test_knapsack_problem_open_mp_mode()
 
 	omp_set_num_threads(threads_numb);
 
-	printf("testing openmp parallel algorithm.....\n");
+	printf("\nTesting openmp parallel algorithm.....\n");
 
-	report_openmp = fopen("open_mp_report.txt", "w");
+	report_openmp = fopen("open_mp_report.csv", "w");
 
 	fprintf(report_openmp, "Threads count = %d\n\n", threads_numb);
 	fprintf(report_openmp, "N\\W	");

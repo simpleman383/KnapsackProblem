@@ -3,12 +3,13 @@
 #include "tools.h"
 #include "custom_knapsack_problem_mode.h"
 #include "test_knapsack_problem_openmp.h"
+#include "test_knapsack_problem_mpi.h"
 #include "stdio.h"
 #include "stdlib.h"
 
 
 /*main function contains basic steps of program*/
-int main() {
+int main(int argc, char*argv[]) {
 	int mode = 0;
 	char again[8];
 	int main_loop = 1;
@@ -17,6 +18,8 @@ int main() {
 	while (main_loop) 
 	{
 		mode = start_menu_mode();
+		fflush(stdout);
+
 		switch (mode)
 		{
 		case 1:
@@ -31,7 +34,8 @@ int main() {
 		}
 		case 3:
 		{
-			//test_knapsack_problem_mpi_mode();
+			printf("Probably, some calculations will be here...\n");
+			//test_knapsack_problem_mpi_mode(argc, argv);
 			break;
 		}
 		case 4:
@@ -51,8 +55,8 @@ int main() {
 		printf("\nDo you want to solve something else? (y/n)\n");
 		while (1) 
 		{
+			fflush(stdout);
 			scanf("%s", again);
-			getchar();
 			if (validate_main_loop_feedback(again) == 0)
 			{
 				main_loop = 0;

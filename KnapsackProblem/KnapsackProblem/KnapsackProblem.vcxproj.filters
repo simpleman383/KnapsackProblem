@@ -32,5 +32,8 @@
     <ClInclude Include="test_knapsack_problem_openmp.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="test_knapsack_problem_mpi.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
